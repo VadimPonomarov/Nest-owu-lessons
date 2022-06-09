@@ -2,7 +2,9 @@ import {Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post}
 import {CreatePostDto} from "../post/dto/create-post.dto";
 import {UpdatePostDto} from "../post/dto/update-post.dto";
 import {PostService} from "./post.service";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Posts')
 @Controller('posts')
 export class PostController {
     constructor(private _postService: PostService) {
