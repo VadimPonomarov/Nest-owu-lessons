@@ -42,7 +42,7 @@ export class UserService {
     }
 
     async createUser(data: Prisma.UserCreateInput): Promise<User> {
-        const bcryptedPassword = bcrypt.hashSync(data.password, this._config.get<number>('salt'));
+        const bcryptedPassword = bcrypt.hashSync(data.password, 5);
         data = {...data, password: bcryptedPassword};
         return await this.prismaService.user.create({
             data,

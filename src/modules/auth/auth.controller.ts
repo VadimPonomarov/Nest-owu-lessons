@@ -15,7 +15,6 @@ export class AuthController {
 
     @Post('register')
     registerUser(@Body() user: CreateUserDto): Promise<CreateUserDto> {
-        console.log('lhjhgk');
         return this._authService.registerUser(user);
     }
 

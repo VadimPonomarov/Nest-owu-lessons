@@ -30,12 +30,12 @@ export class TokenService {
         const payLoad = {name: user.name, email: user.email};
         const accessToken = this._jwtService.sign(payLoad,
             {
-                secret: this._configService.get('token_secret'),
+                secret: process.env.TOKEN_SECRET,
                 expiresIn: '15m'
             });
         const refreshToken = this._jwtService.sign(payLoad,
             {
-                secret: this._configService.get('token_secret'),
+                secret: process.env.TOKEN_SECRET,
                 expiresIn: '30d'
             });
         return {accessToken, refreshToken};
@@ -44,7 +44,7 @@ export class TokenService {
     async refreshTokenPair(refreshToken: string): Promise<ITokenPair> {
         const tokenDAta = await this._jwtService.verify(refreshToken,
             {
-                secret: await this._configService.get('token_secret')
+                secret: process.env.TOKEN_SECRET
             });
 
         if (!tokenDAta) {
@@ -54,13 +54,12 @@ export class TokenService {
         return await this.getTokenPair({name, email});
     }
 
-    async isTokenValid(token: string): Promise<boolean> {
-        const isTokenValid = await this._jwtService.verify(token,
+    isTokenValid(token: string): boolean {
+        const isTokenValid = this._jwtService.verify(token,
             {
-                secret: await this._configService.get('token_secret')
+                secret: process.env.TOKEN_SECRET
             }
         );
-        const isTokenInDB = await this.findOne(token);
-        return isTokenValid || isTokenInDB;
+        return isTokenValid;
     }
 }
