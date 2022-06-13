@@ -1,16 +1,19 @@
 import {Injectable} from '@nestjs/common';
 import {User, Prisma} from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
+
 import {PrismaService} from "../../core/prisma.service";
+import {ConfigService} from "@nestjs/config";
 
 @Injectable()
 export class UserService {
-    constructor(private prismaService: PrismaService) {
+    constructor(private prismaService: PrismaService, private _config: ConfigService) {
     }
 
     async user(
         userWhereUniqueInput: Prisma.UserWhereUniqueInput,
     ): Promise<User | null> {
-        return this.prismaService.user.findUnique({
+        return await this.prismaService.user.findUnique({
             where: userWhereUniqueInput,
             include: {
                 posts: true,
@@ -26,7 +29,7 @@ export class UserService {
         orderBy?: Prisma.UserOrderByWithRelationInput;
     }): Promise<User[]> {
         const {skip, take, cursor, where, orderBy} = params;
-        return this.prismaService.user.findMany({
+        return await this.prismaService.user.findMany({
             skip,
             take,
             cursor,
@@ -39,7 +42,9 @@ export class UserService {
     }
 
     async createUser(data: Prisma.UserCreateInput): Promise<User> {
-        return this.prismaService.user.create({
+        const bcryptedPassword = bcrypt.hashSync(data.password, this._config.get<number>('salt'));
+        data = {...data, password: bcryptedPassword};
+        return await this.prismaService.user.create({
             data,
         });
     }
@@ -49,14 +54,14 @@ export class UserService {
         data: Prisma.UserUpdateInput;
     }): Promise<User> {
         const {where, data} = params;
-        return this.prismaService.user.update({
+        return await this.prismaService.user.update({
             data,
             where,
         });
     }
 
     async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-        return this.prismaService.user.delete({
+        return await this.prismaService.user.delete({
             where,
         });
     }

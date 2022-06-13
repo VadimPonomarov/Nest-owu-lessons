@@ -11,13 +11,15 @@ import {PrismaClient} from "@prisma/client";
 import {PrismaService} from "./core/prisma.service";
 import {PostModule} from './modules/post/post.module';
 import {CommentModule} from './modules/comment/comment.module';
+import {AuthModule} from "./modules/auth/auth.module";
+import {TokenModule} from "./modules/token/token.module";
 
 
 @Module({
     imports: [ConfigModule.forRoot({
         isGlobal: true,
         load: [configuration],
-    }), UserModule, PrismaClient, PostModule, CommentModule],
+    }), UserModule, PrismaClient, PostModule, CommentModule, AuthModule, TokenModule],
     controllers: [AppController, UserController],
     providers: [AppService, UserService, PrismaService],
 })
