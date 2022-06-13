@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {ForbiddenException, Injectable} from '@nestjs/common';
 
 import {CreateTokenDto} from './dto/create-token.dto';
 import {PrismaService} from "../../core/prisma.service";
@@ -19,7 +19,7 @@ export class TokenService {
     }
 
     async findOne(token: string) {
-        return await this._prismaService.token.findUnique({where: {token}});
+        return await this._prismaService.token.findUnique({where: {token: token}});
     }
 
     async remove(token: string) {
@@ -42,15 +42,24 @@ export class TokenService {
     }
 
     async refreshTokenPair(refreshToken: string): Promise<ITokenPair> {
-        if (this.isTokenValid(refreshToken)) {
-            const {user} = await this._jwtService.verify(refreshToken);
-            await this.remove(refreshToken);
-            return await this.getTokenPair(user);
+        const tokenDAta = await this._jwtService.verify(refreshToken,
+            {
+                secret: await this._configService.get('token_secret')
+            });
+
+        if (!tokenDAta) {
+            throw new ForbiddenException();
         }
+        const {name, email} = tokenDAta;
+        return await this.getTokenPair({name, email});
     }
 
     async isTokenValid(token: string): Promise<boolean> {
-        const isTokenValid = await this._jwtService.verify(token);
+        const isTokenValid = await this._jwtService.verify(token,
+            {
+                secret: await this._configService.get('token_secret')
+            }
+        );
         const isTokenInDB = await this.findOne(token);
         return isTokenValid || isTokenInDB;
     }
