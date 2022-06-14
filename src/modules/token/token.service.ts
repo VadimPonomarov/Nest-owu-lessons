@@ -50,6 +50,12 @@ export class TokenService {
             throw new ForbiddenException();
         }
         const {name, email} = tokenDAta;
+        await this.findOne(refreshToken).then(token => {
+            if (token.token === refreshToken) {
+                this.remove(refreshToken);
+            }
+        });
+
         return await this.getTokenPair({name, email});
     }
 
