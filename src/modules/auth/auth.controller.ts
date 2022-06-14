@@ -3,8 +3,9 @@ import {CreateUserDto} from "../user/dto/create-user.dto";
 import {AuthService} from "./auth.service";
 import {ITokenPair} from "../token/interfaces/token-pair.interface";
 import {LoginUserDto} from "./dto/login-user.dto";
-import {AuthGuard} from "./auth.guard";
+import {AuthGuard} from "./guards/auth.guard";
 import {TokenService} from "../token/token.service";
+import {RefreshGuard} from "./guards/refresh.guard";
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +25,7 @@ export class AuthController {
         return this._authService.loginUser(userPartial);
     }
 
+    @UseGuards(RefreshGuard)
     @Post('refresh')
     refreshTokenPair(@Body('refreshToken') refreshToken: string) {
         return this._tokenService.refreshTokenPair(refreshToken);

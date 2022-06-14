@@ -10,7 +10,8 @@ import {ConfigService} from "@nestjs/config";
 import {PrismaClient} from "@prisma/client";
 import {PrismaService} from "../../core/prisma.service";
 import {JwtModule, JwtService} from "@nestjs/jwt";
-import {AuthGuard} from "./auth.guard";
+import {AuthGuard} from "./guards/auth.guard";
+import {RefreshGuard} from "./guards/refresh.guard";
 
 @Module({
     imports: [TokenModule, UserModule, PrismaClient, JwtModule],
@@ -22,7 +23,8 @@ import {AuthGuard} from "./auth.guard";
         ConfigService,
         PrismaService,
         JwtService,
-        AuthGuard
+        AuthGuard,
+        RefreshGuard
     ],
     exports: [AuthService]
 })
