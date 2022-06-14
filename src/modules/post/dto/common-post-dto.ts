@@ -1,12 +1,12 @@
 import {ApiProperty} from "@nestjs/swagger";
 
 export class CommonPostDto {
-    @ApiProperty({example: 'Title', description: 'Title'})
+    @ApiProperty({type: 'string', example: 'Title', description: 'Title'})
     title: string;
-    @ApiProperty({example: 'Text ....', description: 'Text ...'})
+    @ApiProperty({type: 'string', example: 'Text ....', description: 'Text ...'})
     content: string;
-    @ApiProperty({example: 'True', description: 'True/false'})
+    @ApiProperty({type: 'boolean', example: 'True', description: 'True/false'})
     published: boolean;
-    @ApiProperty({example: '123', description: 'Ordinal number'})
+    @ApiProperty({type: 'integer', example: '123', description: 'Ordinal number'})
     userId: number;
 }

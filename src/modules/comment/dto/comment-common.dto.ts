@@ -1,12 +1,12 @@
 import {ApiProperty} from "@nestjs/swagger";
 
 export class CommentCommonDto {
-    @ApiProperty({example: 'Text ....', description: 'Text ...'})
+    @ApiProperty({type: 'string', example: 'Text ....', description: 'Text ...'})
     text: string;
-    @ApiProperty({example: 'True', description: 'True/false'})
+    @ApiProperty({type: 'boolean', example: 'True', description: 'True/false'})
     published: boolean;
-    @ApiProperty({example: '123', description: 'Ordinal number'})
+    @ApiProperty({type: 'integer', example: '123', description: 'Ordinal number'})
     authorId: number;
-    @ApiProperty({example: '123', description: 'Ordinal number'})
+    @ApiProperty({type: 'integer', example: '123', description: 'Ordinal number'})
     postId: number;
 }
