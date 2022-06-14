@@ -3,16 +3,16 @@ import {ApiProperty} from "@nestjs/swagger";
 
 export class CommonUserDto {
 
-    @ApiProperty({type: 'string', example: 'userName', description: 'User name', minLength: 2, maxLength:10})
+    @ApiProperty({type: String, example: 'userName', description: 'User name', minLength: 2, maxLength: 10})
     @IsString()
     @Length(2, 10)
     public name: string;
 
-    @ApiProperty({type: 'integer', example: '33', description: 'User age'})
+    @ApiProperty({type: Number, example: '33', description: 'User age'})
     @IsNumber()
     public age: number;
 
-    @ApiProperty({type: 'string', example: 'Zaporozhye', description: 'City name'})
+    @ApiProperty({type: String, example: 'Zaporozhye', description: 'City name'})
     @IsString()
     public city: string;
 }

@@ -13,6 +13,7 @@ async function bootstrap() {
         .setTitle('Nest-OWU-lesons')
         .setDescription('Nest-OWU-lesons api description')
         .setVersion('1.0')
+        .addBearerAuth({type: "http", scheme: 'bearer', bearerFormat: 'Bearer'}, 'accessToken')
         .addTag('Nest-OWU-lesons')
         .build();
     const document = SwaggerModule.createDocument(app, swagConfig);
