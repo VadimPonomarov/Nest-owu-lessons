@@ -13,13 +13,24 @@ import {PostModule} from './modules/post/post.module';
 import {CommentModule} from './modules/comment/comment.module';
 import {AuthModule} from "./modules/auth/auth.module";
 import {TokenModule} from "./modules/token/token.module";
+import {MulterModule} from "@nestjs/platform-express";
+import {diskStorage} from "multer";
+import {ServeStaticModule} from "@nestjs/serve-static";
+import {join} from 'path';
+import {FileModule} from './modules/file/file.module';
 
 
 @Module({
-    imports: [ConfigModule.forRoot({
-        isGlobal: true,
-        load: [configuration],
-    }), UserModule, PrismaClient, PostModule, CommentModule, AuthModule, TokenModule],
+    imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            load: [configuration],
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: join(process.cwd(), 'static'),
+        }),
+        UserModule, PrismaClient, PostModule, CommentModule, AuthModule, TokenModule, FileModule
+    ],
     controllers: [AppController, UserController],
     providers: [AppService, UserService, PrismaService],
 })

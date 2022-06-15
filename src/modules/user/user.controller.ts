@@ -1,9 +1,21 @@
-import {Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Patch,
+    Post, UploadedFile, UseInterceptors
+} from '@nestjs/common';
 import {ApiTags} from "@nestjs/swagger";
 
 import {UserService} from "./user.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UpdateUserDto} from "./dto/update-user.dto";
+import {FileInterceptor} from "@nestjs/platform-express";
+
 
 @ApiTags('Users')
 @Controller('users')
