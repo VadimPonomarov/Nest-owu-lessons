@@ -18,6 +18,7 @@ import {diskStorage} from "multer";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import {join} from 'path';
 import {FileModule} from './modules/file/file.module';
+import { GatewayModule } from './modules/gateway/gateway.module';
 
 
 @Module({
@@ -29,7 +30,7 @@ import {FileModule} from './modules/file/file.module';
         ServeStaticModule.forRoot({
             rootPath: join(process.cwd(), 'public', 'static', 'upload'),
         }),
-        UserModule, PrismaClient, PostModule, CommentModule, AuthModule, TokenModule, FileModule
+        UserModule, PrismaClient, PostModule, CommentModule, AuthModule, TokenModule, FileModule, GatewayModule
     ],
     controllers: [AppController, UserController],
     providers: [AppService, UserService, PrismaService],
