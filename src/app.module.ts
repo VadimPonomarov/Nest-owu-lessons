@@ -27,7 +27,7 @@ import {FileModule} from './modules/file/file.module';
             load: [configuration],
         }),
         ServeStaticModule.forRoot({
-            rootPath: join(process.cwd(), 'static'),
+            rootPath: join(process.cwd(), 'public', 'static', 'upload'),
         }),
         UserModule, PrismaClient, PostModule, CommentModule, AuthModule, TokenModule, FileModule
     ],
